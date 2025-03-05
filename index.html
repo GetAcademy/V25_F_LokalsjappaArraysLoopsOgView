@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokalsjappa!</title>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        let itemNames = ["Stiga", "Rossignol", "Trehjulssykkel"]
+        let itemPrices = [10000, 2500, 130]
+        const app = document.getElementById('app');
+        let selectedSite = "createHomeView"
+        let newItem = ""
+        let newPrice = ""
+
+        updateView()
+        function updateView(){
+            document.getElementById('app').innerHTML = /*HTML*/`
+                ${createView()}
+                
+            `;
+            
+        }
+
+        function createHomeView(){
+            return /*HTML*/`
+                <h1>Lokalsjappa</h1>
+                <button onclick="setSite('createNewItemView')">Add new item</button>
+                ${createItemsHtml()}
+            `
+        }
+
+        function setSite(page){
+            selectedSite = page
+            updateView()
+        }
+
+        function createView(){
+            if(selectedSite == "createHomeView"){
+                return createHomeView()
+            } else if(selectedSite == "createNewItemView"){
+                return createNewItemView()
+            }
+        }
+
+        function createItemsHtml(){
+            let html = ""
+            for(let i = 0; i < itemNames.length; i++) {
+                html += `
+                    <div>Name: ${itemNames[i]} -
+                    Price: ${itemPrices[i]} kr</div>
+                `
+            }
+            return html;
+        }
+
+        function createNewItemView(){
+            return /*HTML*/`
+                <h1>Add item</h1>
+                <input placeholder="Name" onchange="newItem = this.value">
+                <input placeholder="Price" onchange="newPrice = this.value">
+                <button onclick="registerNewItem()">Confirm</button>
+            `        
+        }
+
+        function registerNewItem(){
+            itemNames.push(newItem)
+            itemPrices.push(newPrice)
+            setSite('createHomeView')
+        }
+
+
+
+    </script>
+</body>
+</html>
