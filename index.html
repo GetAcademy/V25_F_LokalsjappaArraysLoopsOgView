@@ -1,79 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lokalsjappa!</title>
 </head>
+
 <body>
     <div id="app"></div>
 
     <script>
-        let itemNames = ["Stiga", "Rossignol", "Trehjulssykkel"]
-        let itemPrices = [10000, 2500, 130]
-        const app = document.getElementById('app');
-        let selectedSite = "createHomeView"
-        let newItem = ""
-        let newPrice = ""
+
+        let items = [
+            {
+                name: 'Stiga',
+                price: 10000
+            },
+            {
+                name: 'Rossignol',
+                price: 2500
+            },
+            {
+                name: 'Trehjulssykkel',
+                price: 130
+            }
+        ];
+
+        let selectedSite = 'homeView';
+        let newItem = {};
 
         updateView()
-        function updateView(){
+        function updateView() {
             document.getElementById('app').innerHTML = /*HTML*/`
-                ${createView()}
-                
+                ${createView()}                
             `;
-            
+
         }
 
-        function createHomeView(){
+        function createHomeView() {
             return /*HTML*/`
                 <h1>Lokalsjappa</h1>
-                <button onclick="setSite('createNewItemView')">Add new item</button>
-                ${createItemsHtml()}
+                <button onclick="setSite('newItemView')">Add new item</button>
+                ${createItems()}
             `
         }
 
-        function setSite(page){
+        function setSite(page) {
             selectedSite = page
             updateView()
         }
 
-        function createView(){
-            if(selectedSite == "createHomeView"){
+        function createView() {
+            if (selectedSite == 'homeView') {
                 return createHomeView()
-            } else if(selectedSite == "createNewItemView"){
+            } else if (selectedSite == 'newItemView') {
                 return createNewItemView()
             }
         }
 
-        function createItemsHtml(){
-            let html = ""
-            for(let i = 0; i < itemNames.length; i++) {
+        function createItems() {
+            let html = '';
+            for(const item of items) {
                 html += `
-                    <div>Name: ${itemNames[i]} -
-                    Price: ${itemPrices[i]} kr</div>
-                `
-            }
+                    <div>Name: ${item.name} -
+                    Price: ${item.price} kr</div>
+                `;
+            }      
             return html;
         }
 
-        function createNewItemView(){
+        function createNewItemView() {
             return /*HTML*/`
                 <h1>Add item</h1>
-                <input placeholder="Name" onchange="newItem = this.value">
-                <input placeholder="Price" onchange="newPrice = this.value">
+                <input placeholder="Name" onchange="newItem.name = this.value">
+                <input placeholder="Price" onchange="newItem.price = this.value">
                 <button onclick="registerNewItem()">Confirm</button>
-            `        
+            `
         }
 
-        function registerNewItem(){
-            itemNames.push(newItem)
-            itemPrices.push(newPrice)
-            setSite('createHomeView')
+        function registerNewItem() {
+            items.push(newItem);
+            newItem = {};
+            setSite('homeView')
         }
-
-
-
     </script>
 </body>
+
 </html>
